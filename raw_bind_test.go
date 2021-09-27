@@ -14,6 +14,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries"
 	"gopkg.in/gorp.v1"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"xorm.io/xorm"
 )
 
@@ -21,7 +22,9 @@ func BenchmarkGORMRawBind(b *testing.B) {
 	query := jetQuery()
 	mimic.NewQuery(query)
 
-	gormdb, err := gorm.Open(gormMimicDialector, &gorm.Config{})
+	gormdb, err := gorm.Open(gormMimicDialector, &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
 		panic(err)
 	}

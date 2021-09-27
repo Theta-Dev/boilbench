@@ -12,6 +12,7 @@ import (
 	"github.com/volatiletech/boilbench/xorms"
 	"gopkg.in/gorp.v1"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"xorm.io/xorm"
 )
 
@@ -24,7 +25,9 @@ func BenchmarkGORMDelete(b *testing.B) {
 	exec.NumInput = -1
 	mimic.NewResult(exec)
 
-	gormdb, err := gorm.Open(gormMimicDialector, &gorm.Config{})
+	gormdb, err := gorm.Open(gormMimicDialector, &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
 		panic(err)
 	}

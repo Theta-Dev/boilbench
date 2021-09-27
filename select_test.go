@@ -13,6 +13,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"gopkg.in/gorp.v1"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"xorm.io/xorm"
 )
 
@@ -20,7 +21,9 @@ func BenchmarkGORMSelectAll(b *testing.B) {
 	query := jetQuery()
 	mimic.NewQuery(query)
 
-	gormdb, err := gorm.Open(gormMimicDialector, &gorm.Config{})
+	gormdb, err := gorm.Open(gormMimicDialector, &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -109,7 +112,9 @@ func BenchmarkGORMSelectSubset(b *testing.B) {
 	query := jetQuery()
 	mimic.NewQuery(query)
 
-	gormdb, err := gorm.Open(gormMimicDialector, &gorm.Config{})
+	gormdb, err := gorm.Open(gormMimicDialector, &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -197,7 +202,9 @@ func BenchmarkGORMSelectComplex(b *testing.B) {
 	query.NumInput = -1
 	mimic.NewQuery(query)
 
-	gormdb, err := gorm.Open(gormMimicDialector, &gorm.Config{})
+	gormdb, err := gorm.Open(gormMimicDialector, &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
 		panic(err)
 	}
